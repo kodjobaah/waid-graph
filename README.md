@@ -1,12 +1,11 @@
 # waid-graph
 
-## This project is a graph library built using redis. Below are a description of the elements within
-the graph.
+## This project is a graph library built using redis. Below are a description of the elements within the graph.
 
 ### System Counters
  
  
- \<userId\> counter:user
+ **\<userId\>** counter:user
  \<userTokenId\> counter:token:_\<userId\>  ==\> user specify
  \<userStreamId\> counter:stream:_\<userId\>
  \<userInviteId\> counter:invite:_\<userId\>
