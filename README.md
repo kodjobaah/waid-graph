@@ -4,35 +4,37 @@
 the graph.
 
 ### System Counters
-
- **(<userId>)** counter:user
- **(<userTokenId>)** counter:token:_<userId>  ==> user specify
- **(<userStreamId>)** counter:stream:_<userId>
- (<userInviteId>) counter:invite:_<userId>
- (<userInviteeId>) counter:invitee:_<userId>
  
+ ...
+ <userId> counter:user
+ <userTokenId> counter:token:_<userId>  ==> user specify
+ <userStreamId> counter:stream:_<userId>
+ <userInviteId> counter:invite:_<userId>
+ <userInviteeId> counter:invitee:_<userId>
+ ...
 
 ### Nodes
 
-(<userNodeId>) node:user:_<userId> email k@email.com password "password"
-(<userTokenNodeId>) node:token:_<userId>_:_<userTokenId> token "token_for_1" state "valid" 
-(<userStreamNodeId>) node:stream:_<userTokenNodeId>_:_<userStreamId>_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
+...
+<userNodeId> node:user:_<userId> email k@email.com password "password"
+<userTokenNodeId> node:token:_<userId>_:_<userTokenId> token "token_for_1" state "valid" 
+<userStreamNodeId> node:stream:_<userTokenNodeId>_:_<userStreamId>_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
 
-(<userInviteNodeId>) node:invite:_<userStreamNodeId>_:_<userInviteId> token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
+<userInviteNodeId> node:invite:_<userStreamNodeId>_:_<userInviteId> token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
 
-(<userInviteeNodeId>) node:invitee:_<userInviteNodeId> email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
- 
+<userInviteeNodeId> node:invitee:_<userInviteNodeId> email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
+ ...
 
 ### Global Lookup lists
 
 SETS:
-
+...
 This holds all the streams that are created each hour
 lookup:stream:invitees:<epoch_time> <streamId:1.1.1>
-
+...
 
 Hash:  
-
+...
 lookup:valid_tokens $authenticationToken <userTokenNodeId>
 lookup:valid_streams $streamToken <streamNodeId>
 lookup:stream:invites:_<userNodeId> <inviteNodeId> <epochTime>
@@ -40,8 +42,9 @@ lookup:valid_invites $inviteToken <inviteTokenId>
 
 lookup:user $email <userNodeId>
 lookup:valid_logins $email <userTokenNodId>
-
+...
 Log facitlity:
+...
 store:allusers:<epoch_hour_time>: <userNodeId>
 
 Index Lookups:
@@ -52,6 +55,7 @@ store:streams:invites:<user.id> inviteNodeId
 
 store:access_times<epoch_hour_time> userTokenId
 store:logout_times<epoch_hour_time> userTokenId
+...
 
 ### Below are some of the scenario for using the graph data.
 
