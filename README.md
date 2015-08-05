@@ -5,57 +5,54 @@ the graph.
 
 ### System Counters
  
- ...
- <userId> counter:user
- <userTokenId> counter:token:_<userId>  ==> user specify
- <userStreamId> counter:stream:_<userId>
- <userInviteId> counter:invite:_<userId>
- <userInviteeId> counter:invitee:_<userId>
- ...
-
+ 
+ \<userId\> counter:user
+ \<userTokenId\> counter:token:_\<userId\>  ==\> user specify
+ \<userStreamId\> counter:stream:_\<userId\>
+ \<userInviteId\> counter:invite:_\<userId\>
+ \<userInviteeId\> counter:invitee:_\<userId\>
+ 
 ### Nodes
 
-...
-<userNodeId> node:user:_<userId> email k@email.com password "password"
-<userTokenNodeId> node:token:_<userId>_:_<userTokenId> token "token_for_1" state "valid" 
-<userStreamNodeId> node:stream:_<userTokenNodeId>_:_<userStreamId>_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
 
-<userInviteNodeId> node:invite:_<userStreamNodeId>_:_<userInviteId> token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
+\<userNodeId\> node:user:_\<userId\> email k@email.com password "password"
+\<userTokenNodeId\> node:token:_\<userId\>_:_\<userTokenId\> token "token_for_1" state "valid" 
+\<userStreamNodeId\> node:stream:_\<userTokenNodeId\>_:_\<userStreamId\>_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
 
-<userInviteeNodeId> node:invitee:_<userInviteNodeId> email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
- ...
+\<userInviteNodeId\> node:invite:_\<userStreamNodeId\>_:_\<userInviteId\> token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
 
+\<userInviteeNodeId\> node:invitee:_\<userInviteNodeId\> email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
+ 
 ### Global Lookup lists
 
 SETS:
-...
+
 This holds all the streams that are created each hour
-lookup:stream:invitees:<epoch_time> <streamId:1.1.1>
-...
+lookup:stream:invitees:\<epoch_time\> \<streamId:1.1.1\>
 
 Hash:  
-...
-lookup:valid_tokens $authenticationToken <userTokenNodeId>
-lookup:valid_streams $streamToken <streamNodeId>
-lookup:stream:invites:_<userNodeId> <inviteNodeId> <epochTime>
-lookup:valid_invites $inviteToken <inviteTokenId>
 
-lookup:user $email <userNodeId>
-lookup:valid_logins $email <userTokenNodId>
-...
+lookup:valid_tokens $authenticationToken \<userTokenNodeId\>
+lookup:valid_streams $streamToken \<streamNodeId\>
+lookup:stream:invites:_\<userNodeId\> \<inviteNodeId\> \<epochTime\>
+lookup:valid_invites $inviteToken \<inviteTokenId\>
+
+lookup:user $email \<userNodeId\>
+lookup:valid_logins $email \<userTokenNodId\>
+
 Log facitlity:
-...
-store:allusers:<epoch_hour_time>: <userNodeId>
+
+
+store:allusers:\<epoch_hour_time\>: \<userNodeId\>
 
 Index Lookups:
 
-store:streams:<user.id> streamNodeId
+store:streams:\<user.id\> streamNodeId
 
-store:streams:invites:<user.id> inviteNodeId
+store:streams:invites:\<user.id\> inviteNodeId
 
-store:access_times<epoch_hour_time> userTokenId
-store:logout_times<epoch_hour_time> userTokenId
-...
+store:access_times\<epoch_hour_time\> userTokenId
+store:logout_times\<epoch_hour_time\> userTokenId
 
 ### Below are some of the scenario for using the graph data.
 
@@ -112,7 +109,7 @@ Given an authenticationToken, streamTokenId
 
 1. If token is valid
   1. Remove stream from lookup:valid_streams
-  2. Remove all invites associated with the stream from lookup:invites_valid:_<userId>
+  2. Remove all invites associated with the stream from lookup:invites_valid:_\<userId\>
 
 #### Create an invite
 
@@ -121,8 +118,8 @@ Given an authenticationToken and streamToken and invite type
 1. If authenticationToken is valid:
   1. If stream exists within lookup:valid_streams
     1. create inviteNode using the invite type.
-    2. add invite node to lookup:stream:invites:_<userNodeId> <inviteNode> <epochTime>
-    3. add invite node to lookup:stream:valid $inviteToken <inviteNode>
+    2. add invite node to lookup:stream:invites:_\<userNodeId\> \<inviteNode\> \<epochTime\>
+    3. add invite node to lookup:stream:valid $inviteToken \<inviteNode\>
 
 #### Join Stream:
 
@@ -131,11 +128,11 @@ Given a inviteToken
 1. If token exists within lookup:stream:valid
   1. Extropolate the streamNodeId from the inviteTokenId 
   2. create an inviteeNodeId 
-  3. add inviteeNodeId to lookup:invitee:<userId> 
+  3. add inviteeNodeId to lookup:invitee:\<userId\> 
 2. Using the streamId, if the invitee exists within lookup:stream:valid:invitee
   1. If Join stream from linkedin invite
     1. create an invitee
-    2. add to lookup:stream:invitees:acecpted:<epoch_time>:
+    2. add to lookup:stream:invitees:acecpted:\<epoch_time\>:
     3. add to lookup:stream:invitees:valid
 
 
