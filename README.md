@@ -1,44 +1,35 @@
 # waid-graph
 
-This project is a graph library built using redis. Below are a description of the elements within
+## This project is a graph library built using redis. Below are a description of the elements within
 the graph.
 
-=System Counters
+### System Counters
 
- <userId> counter:user
- <userTokenId> counter:token:_<userId>  ==> user specify
- <userStreamId> counter:stream:_<userId>
- <userInviteId> counter:invite:_<userId>
- <userInviteeId> counter:invitee:_<userId>
+ **(<userId>)** counter:user
+ **(<userTokenId>)** counter:token:_<userId>  ==> user specify
+ **(<userStreamId>)** counter:stream:_<userId>
+ (<userInviteId>) counter:invite:_<userId>
+ (<userInviteeId>) counter:invitee:_<userId>
  
 
-Nodes:
+### Nodes
 
-<userNodeId> node:user:_<userId> email k@email.com password "password"
-<userTokenNodeId> node:token:_<userId>_:_<userTokenId> token "token_for_1" state "valid" 
-<userStreamNodeId> node:stream:_<userTokenNodeId>_:_<userStreamId>_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
+(<userNodeId>) node:user:_<userId> email k@email.com password "password"
+(<userTokenNodeId>) node:token:_<userId>_:_<userTokenId> token "token_for_1" state "valid" 
+(<userStreamNodeId>) node:stream:_<userTokenNodeId>_:_<userStreamId>_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
 
-<userInviteNodeId> node:invite:_<userStreamNodeId>_:_<userInviteId> token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
+(<userInviteNodeId>) node:invite:_<userStreamNodeId>_:_<userInviteId> token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
 
-<userInviteeNodeId> node:invitee:_<userInviteNodeId> email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
+(<userInviteeNodeId>) node:invitee:_<userInviteNodeId> email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
  
 
-Global Lookup lists
+### Global Lookup lists
 
 SETS:
 
-This set contains valid authentication tokens
-NB:AuthenticationTokens -- Are unique across the application.
-
+This holds all the streams that are created each hour
 lookup:stream:invitees:<epoch_time> <streamId:1.1.1>
 
-This set contains the streamIds that invites have been sent out for.
-
-lookup:streams:valid  $streamToken
-
-lookup:
-
-This set contains 
 
 Hash:  
 
@@ -62,96 +53,86 @@ store:streams:invites:<user.id> inviteNodeId
 store:access_times<epoch_hour_time> userTokenId
 store:logout_times<epoch_hour_time> userTokenId
 
+### Below are some of the scenario for using the graph data.
+
+#### Create Token
 Given email,password:
 
-1: lookup:user
-   1.1 If user exists within lookup:users
-       1.1.1 Fetch user details
-       1.1.2  User exist
-             1.1.2.1 If password match
-                   1.1.2.1.1 Create auth token node and set state
-                   1.1.2.1.2 Add auth token to list of vald tokens
-              1.1.2.2 if password does not match
-                  do nothingg
-       1.1.3 User details does not exist
+1. lookup:user
+  1. If user exists within lookup:users
+    1. Fetch user details
+      1. User exist
+        1. If password match
+          1. Create auth token node and set state
+          2. Add auth token to list of vald tokens
+        2. if password does not match do nothing
+      2. User details does not exist
              -- Log error:
-             1.1.3.1 CLEANUP(Potential to hide problems) - remove user details from lookup:users
-  1.2 user does not exist
+             CLEANUP(Potential to hide problems) - remove user details from lookup:users
+  2. user does not exist
       Do nothing.
 
-Logout:
+#### Logout:
 
 Given authenticationToken
 
-1: Check if token exists within lookup:valid_tokens
-  1.1 If token exists in lookup:valid_tokens
-    1.1.1 Get the token and update the state
-    1.1.2 remove token from lookup:valid_tokens
-2:Do nothing
+1. Check if token exists within lookup:valid_tokens
+  1. If token exists in lookup:valid_tokens
+    1. Get the token and update the state
+    2. remove token from lookup:valid_tokens
+  2.Do nothing
 
 
-Create user:
+#### Create user:
 
 Given email, optional (pasword, firstname, lastname)
 
-1: Create a new user
+1. Create a new user
+  1. If user does not exist within lookup:user
+    1. Create userNode
+    2. Create authentication token
+    3. Add token to lookup:valid_tokens
 
-  1.1 If user does not exist within lookup:user
-      1.1. Create userNode
-      1.2. Create authentication token
-      1.3. Add token to lookup:valid_tokens
 
-
-Create stream:
+#### Create stream:
 
 Given authenticationToken
 
-1: If authentication token is valid:
- 
- 1.1 Create streamNode
- 1.2 Add stream to lookup:valid_streams 
+1. If authentication token is valid:
+  1. Create streamNode
+  2. Add stream to lookup:valid_streams 
 
-End Stream:
+#### End Stream:
 
 Given an authenticationToken, streamTokenId
 
-1: If token is valid
-  1.1 Remove stream from lookup:valid_streams
-  1.2 Remove all invites associated with the stream from lookup:invites_valid:_<userId>
+1. If token is valid
+  1. Remove stream from lookup:valid_streams
+  2. Remove all invites associated with the stream from lookup:invites_valid:_<userId>
 
-Create an invite
+#### Create an invite
 
 Given an authenticationToken and streamToken and invite type
 
-1: If authenticationToken is valid:
+1. If authenticationToken is valid:
+  1. If stream exists within lookup:valid_streams
+    1. create inviteNode using the invite type.
+    2. add invite node to lookup:stream:invites:_<userNodeId> <inviteNode> <epochTime>
+    3. add invite node to lookup:stream:valid $inviteToken <inviteNode>
 
-  1.1 If stream exists within lookup:valid_streams
-
-      1.1.1 create inviteNode using the invite type.
-      1.1.2 add invite node to lookup:stream:invites:_<userNodeId> <inviteNode> <epochTime>
-      1.1.3 add invite node to lookup:stream:valid $inviteToken <inviteNode>
-
-Join Stream:
+#### Join Stream:
 
 Given a inviteToken
 
-1: If token exists within lookup:stream:valid
-
- 1.1 Extropolate the streamNodeId from the inviteTokenId 
- 1.2 create an inviteeNodeId 
- 1.3 add inviteeNodeId to lookup:invitee:<userId> 
- 1.2 Using the streamId, if the invitee exists within lookup:stream:valid:invitee
-
- 1.2.1: If Join stream from linkedin invite
-           1.1.1.1 create an invitee
-           1.1.1.2 add to lookup:stream:invitees:acecpted:<epoch_time>:
-           1.1.1.3 add to lookup:stream:invitees:valid
-
-
-hls:url
-
-http://server/streamToken_1.ts
-
+1. If token exists within lookup:stream:valid
+  1. Extropolate the streamNodeId from the inviteTokenId 
+  2. create an inviteeNodeId 
+  3. add inviteeNodeId to lookup:invitee:<userId> 
+2. Using the streamId, if the invitee exists within lookup:stream:valid:invitee
+  1. If Join stream from linkedin invite
+    1. create an invitee
+    2. add to lookup:stream:invitees:acecpted:<epoch_time>:
+    3. add to lookup:stream:invitees:valid
 
 
 
