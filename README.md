@@ -37,32 +37,30 @@ This holds all the streams that are created each hour
 
 Hash:  
 
-lookup:valid_tokens $authenticationToken **\<userTokenNodeId\>**
-
-lookup:valid_streams $streamToken **\<streamNodeId\>**
-
-lookup:stream:invites:_**\<userNodeId\>** **\<inviteNodeId\>** **\<epochTime\>**
-
-lookup:valid_invites $inviteToken **\<inviteTokenId\>**
-
-lookup:user $email **\<userNodeId\>**
-
-lookup:valid_logins $email **\<userTokenNodId\>**
+|Node Reference|Example Content|
+|:-------------|:-------------------|
+|lookup:valid_tokens| $authenticationToken **\<userTokenNodeId\>**|
+|lookup:valid_streams| $streamToken **\<streamNodeId\>**|
+|lookup:stream:invites:_**\<userNodeId\>**_**\<inviteNodeId\>**| Not Defined Yet|
+|lookup:valid_invites| $inviteToken **\<inviteTokenId\>** |
+|lookup:user| $email **\<userNodeId\>**|
+|lookup:valid_logins| $email **\<userTokenNodId\>**|
 
 Log facitlity:
 
-
-store:allusers:**\<epoch_hour_time\>**: **\<userNodeId\>**
+|Node Reference|Example Conntent|
+|:-------------|:---------------|
+|store:allusers_**\<epoch_hour_time\>**| **\<userNodeId\>**«
 
 Index Lookups:
 
-store:streams:**\<user.id\>** streamNodeId
 
-store:streams:invites:**\<user.id\>** inviteNodeId
-
-store:access_times**\<epoch_hour_time\>** userTokenId
-
-store:logout_times**\<epoch_hour_time\>** userTokenId
+|Node Reference|Example Conntent|
+|:-------------|:---------------|
+|store:streams:**\<user.id\>**|streamNodeId|
+|store:streams:invites:**\<user.id\>**|inviteNodeId|
+|store:access_times**\<epoch_hour_time\>**|userTokenId|
+|store:logout_times**\<epoch_hour_time\>**|userTokenId|
 
 ### Below are some of the scenario for using the graph data.
 
