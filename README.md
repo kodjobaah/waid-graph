@@ -17,14 +17,13 @@
  
 ### Nodes
 
-
 |Node Type|Node Reference| Example Content|
 | -------- | -------- | ------------------ |
 |**\<userNodeId\>**|node:user:_**\<userId\>**|`email` k@email.com `password` "password"|
-|**\<userTokenNodeId\>**|node:token:_`**\<userId\>**_:_**\<userTokenId\>**|`token` "token_for_1" `state` "valid" |
-|**\<userStreamNodeId\>**|node:stream:_`**\<userTokenNodeId\>**_:_**\<userStreamId\>**_|`loc` "germany" `streamToken` "streamToken" `creationDate` "12312313123" `playList` "2345" `type` "[ethemeral|persist]"|
-|**\<userInviteNodeId\>**|node:invite:_**\<userStreamNodeId\>**_:_**\<userInviteId\>**|`token` "inviteToken" `type` "[email|linkedin|facebook|twitter]" `creationDate` "20150835"|
-|**\<userInviteeNodeId\>**|node:invitee:_**\<userInviteNodeId\>**|`email` "k@a.com" `creationDate` "20150580" type="[email|linkedin|facebook|twitter]"|
+|**\<userTokenNodeId\>**|node:token:_**\<userId\>**_:_**\<userTokenId\>**|  `token` "token_for_1" `state` "valid" |
+|**\<userStreamNodeId\>**|node:stream:_**\<userTokenNodeId\>**_:_**\<userStreamId\>**_|`loc` "germany" `streamToken` "streamToken" `creationDate` 20150531 `playList` #count `type` [ethemeral\|persist]|
+|**\<userInviteNodeId\>**|node:invite:_**\<userStreamNodeId\>**_:_**\<userInviteId\>**|`token` "inviteToken" `type` "[email\|linkedin\|facebook\|twitter]" `creationDay` "20150835"|
+|**\<userInviteeNodeId\>**|node:invitee:_**\<userInviteNodeId\>**|`email` "k@a.com" `creationDate` "20150580" `type` "[email\|linkedin\|facebook\|twitter]"|
 
 ### Global Lookup lists
 
