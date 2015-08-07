@@ -5,28 +5,27 @@
 ### System Counters
  
  
- **\<userId\>** counter:user
+ **\<userId\>** `counter:user`
 
- **\<userTokenId\>** counter:token:_**\<userId\>**  ==\>** user specify
+ **\<userTokenId\>** `counter:token:_`**\<userId\>**  ==\>** user specify
 
- **\<userStreamId\>** counter:stream:_**\<userId\>**
+ **\<userStreamId\>** `counter:stream:_`**\<userId\>**
 
- **\<userInviteId\>** counter:invite:_**\<userId\>**
+ **\<userInviteId\>** `counter:invite:_`**\<userId\>**
 
- **\<userInviteeId\>** counter:invitee:_**\<userId\>**
+ **\<userInviteeId\>** `counter:invitee:_`**\<userId\>**
  
 ### Nodes
 
 
-**\<userNodeId\>** node:user:_**\<userId\>** email k@email.com password "password"
 
-**\<userTokenNodeId\>** node:token:_**\<userId\>**_:_**\<userTokenId\>** token "token_for_1" state "valid" 
-
-**\<userStreamNodeId\>** node:stream:_**\<userTokenNodeId\>**_:_**\<userStreamId\>**_ loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]
-
-**\<userInviteNodeId\>** node:invite:_**\<userStreamNodeId\>**_:_**\<userInviteId\>** token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835"
-
-**\<userInviteeNodeId\>** node:invitee:_**\<userInviteNodeId\>** email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]"
+|Node Type                  | Node Reference                                                   | Example Content|
+|---------------------------|:-----------------------------------------------------------------:-----------------|
+|**\<userNodeId\>**         |node:user:_**\<userId\>**                                         |email k@email.com password "password"`|
+|**\<userTokenNodeId\>**    |node:token:_`**\<userId\>**_:_**\<userTokenId\>**                 |token "token_for_1" state "valid" |
+|**\<userStreamNodeId\>**   |node:stream:_`**\<userTokenNodeId\>**_:_**\<userStreamId\>**_     |loc "germany" streamToken "streamToken" created playList #count type [ethemeral|persist]|
+|**\<userInviteNodeId\>**   |node:invite:_**\<userStreamNodeId\>**_:_**\<userInviteId\>**      |token "inviteToken" type="[email|linkedin|facebook|twitter]" creationDay "20150835 |
+|**\<userInviteeNodeId\>**  |node:invitee:_**\<userInviteNodeId\>**                            | email "k@a.com" creationDate "20150580" type="[email|linkedin|facebook|twitter]" |
  
 ### Global Lookup lists
 
