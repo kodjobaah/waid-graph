@@ -17,7 +17,7 @@
 ### Nodes
 
 |Node Type|Node Reference| Example Content|
-| -------- | -------- | ------------------ |
+|: -------- |: -------- |: ------------------ |
 |**\<userNodeId\>**|node:user:_**\<userId\>**|`email` k@email.com `password` "password"|
 |**\<userTokenNodeId\>**|node:token:_**\<userId\>**_:_**\<userTokenId\>**|  `token` "token_for_1" `state` "valid" |
 |**\<userStreamNodeId\>**|node:stream:_**\<userTokenNodeId\>**_:_**\<userStreamId\>**_|`loc` "germany" `streamToken` "streamToken" `creationDate` 20150531 `playList` #count `type` [ethemeral\|persist]|
