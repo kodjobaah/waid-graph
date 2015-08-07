@@ -5,15 +5,14 @@
 ### System Counters
  
  
- **\<userId\>** `counter:user`
+|Node Type| Node Reference| Example Content|
+|:---------------|:-------------|:------------------|
+|**\<userId\>**|counter:user|12|
+|**\<userTokenId\>**|counter:token:_**\<userId\>**| 434
+|**\<userStreamId\>**|counter:stream:_**\<userId\>**|12|
+|**\<userInviteId\>**|counter:invite:_**\<userId\>**|23|
+|**\<userInviteeId\>**|counter:invitee:_**\<userId\>**|12|
 
- **\<userTokenId\>** `counter:token:_`**\<userId\>**  ==\>** user specify
-
- **\<userStreamId\>** `counter:stream:_`**\<userId\>**
-
- **\<userInviteId\>** `counter:invite:_`**\<userId\>**
-
- **\<userInviteeId\>** `counter:invitee:_`**\<userId\>**
  
 ### Nodes
 
